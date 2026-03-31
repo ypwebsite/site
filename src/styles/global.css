@@ -329,13 +329,15 @@ margin-bottom:7px;
 display:inline-block;
 margin-top:6px;
 font-size:.94rem;
+color:var(--accent);
 text-decoration:underline;
+text-decoration-color:rgba(139,30,63,.35);
 text-underline-offset:3px;
 }
 
 .book-more:hover{
-text-decoration:underline;
-text-underline-offset:3px;
+color:var(--accent-hover);
+text-decoration-color:var(--accent-hover);
 }
 
 footer.site-footer{
