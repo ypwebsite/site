@@ -3,6 +3,9 @@
 --muted:#777;
 --line:#ececec;
 --bg:#fff;
+
+--accent:#8b1e3f;
+--accent-hover:#5e132b;
 }
 
 *{
@@ -22,14 +25,29 @@ font-size:18px;
 line-height:1.62;
 }
 
+/* Базовые ссылки */
+
 a{
 color:inherit;
 text-decoration:none;
 }
 
-a:hover{
+/* ТОЛЬКО ссылки внутри текста */
+
+.article-body a,
+.book-text a,
+.book-lead a{
+color:var(--accent);
 text-decoration:underline;
+text-decoration-color:rgba(139,30,63,.35);
 text-underline-offset:3px;
+}
+
+.article-body a:hover,
+.book-text a:hover,
+.book-lead a:hover{
+color:var(--accent-hover);
+text-decoration-color:var(--accent-hover);
 }
 
 img{
@@ -74,6 +92,11 @@ font-weight:500;
 color:#222;
 }
 
+.site-nav a:hover{
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 main{
 min-height:60vh;
 }
@@ -86,13 +109,15 @@ font-weight:700;
 letter-spacing:-0.01em;
 }
 
-/* Только для отдельных страниц книг */
+/* Только для страниц книг */
 
 .book-page h1{
 font-size:clamp(1.35rem,1.7vw,1.6rem);
 line-height:1.22;
 max-width:640px;
 }
+
+
 
 /* Подзаголовки */
 
@@ -102,8 +127,6 @@ line-height:1.25;
 margin:28px 0 12px;
 font-weight:600;
 }
-
-/* Заголовки списков по умолчанию */
 
 h3{
 font-size:1rem;
@@ -147,7 +170,7 @@ color:#555;
 margin-bottom:12px;
 }
 
-/* Основной текст статьи */
+/* текст статьи */
 
 .article-body{
 max-width:760px;
@@ -189,54 +212,19 @@ border-left:3px solid #ddd;
 color:#444;
 }
 
-.article-body a,
-.book-text a,
-.book-lead a {
-color: inherit;
-text-decoration: underline;
-text-decoration-color: #bbb;
-text-decoration-thickness: 1px;
-text-underline-offset: 3px;
-transition: text-decoration-color .15s;
+.video{
+max-width:640px;
+margin:1.5rem 0 2rem;
 }
 
-.article-body a:hover,
-.book-text a:hover,
-.book-lead a:hover {
-text-decoration-color: #000;
+.video iframe{
+display:block;
+width:100%;
+aspect-ratio:16/9;
+border:0;
 }
 
-.video {
-  max-width:640px;
-  margin: 1.5rem 0 2rem;
-}
-
-.video iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-}
-
-/* Основной текст книги */
-
-.book-page .book-body{
-max-width:860px;
-line-height:1.74;
-}
-
-.book-page .book-body p{
-margin-bottom:16px;
-}
-
-.book-page .book-body h2{
-margin-top:30px;
-margin-bottom:10px;
-font-size:1.2rem;
-font-weight:600;
-}
-
-/* Списки */
+/* списки статей */
 
 .list{
 display:grid;
@@ -248,13 +236,20 @@ padding-bottom:14px;
 border-bottom:1px solid var(--line);
 }
 
-/* Заголовки статей и блогов в списках */
-
 .item h3{
 font-size:1.15rem;
 line-height:1.3;
 margin-bottom:6px;
 word-spacing:0.08em;
+}
+
+.item h3 a{
+color:var(--text);
+}
+
+.item h3 a:hover{
+text-decoration:underline;
+text-underline-offset:3px;
 }
 
 .item:last-child{
@@ -266,6 +261,8 @@ padding-bottom:0;
 margin-bottom:2px;
 }
 
+/* Читать подробнее */
+
 .item-readmore{
 margin-top:6px;
 margin-bottom:18px;
@@ -274,17 +271,18 @@ line-height:1.2;
 }
 
 .item-readmore a{
-color:#444;
+color:var(--accent);
 text-decoration:underline;
-text-decoration-thickness:1px;
+text-decoration-color:rgba(139,30,63,.35);
 text-underline-offset:3px;
 }
 
 .item-readmore a:hover{
-color:#111;
+color:var(--accent-hover);
+text-decoration-color:var(--accent-hover);
 }
 
-/* Книги */
+/* книги */
 
 .books-grid{
 display:grid;
@@ -297,10 +295,6 @@ align-items:start;
 max-width:280px;
 display:flex;
 flex-direction:column;
-}
-
-.book-cover{
-display:block;
 }
 
 .book-cover img{
@@ -317,8 +311,7 @@ transform:translateY(-4px);
 }
 
 .book-title a{
-text-decoration:none;
-color:inherit;
+color:var(--text);
 }
 
 .book-title a:hover{
@@ -332,14 +325,15 @@ line-height:1.48;
 margin-bottom:7px;
 }
 
-.book-card .muted{
-font-size:.94rem;
-}
-
 .book-more{
 display:inline-block;
 margin-top:6px;
 font-size:.94rem;
+text-decoration:underline;
+text-underline-offset:3px;
+}
+
+.book-more:hover{
 text-decoration:underline;
 text-underline-offset:3px;
 }
@@ -352,74 +346,12 @@ color:var(--muted);
 font-size:.9rem;
 }
 
-/* responsive */
-
-@media(max-width:980px){
-
-.books-grid{
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:32px;
+footer.site-footer a{
+color:inherit;
+text-decoration:underline;
+text-underline-offset:3px;
 }
 
-.book-page .book-body{
-max-width:100%;
-}
-
-}
-
-@media(max-width:720px){
-
-.container{
-padding:16px 18px 36px;
-}
-
-header.site-header{
-flex-direction:column;
-align-items:flex-start;
-gap:14px;
-margin-bottom:36px;
-}
-
-.site-nav{
-gap:22px;
-}
-
-.site-nav a{
-font-size:1rem;
-}
-
-.brand{
-font-size:1rem;
-}
-
-body{
-font-size:17px;
-}
-
-h1{
-font-size:1.6rem;
-}
-
-.book-page h1{
-font-size:1.45rem;
-}
-
-h2{
-font-size:1.15rem;
-}
-
-.section{
-margin-top:34px;
-}
-
-.books-grid{
-grid-template-columns:1fr;
-gap:24px;
-}
-
-.book-cover img{
-width:190px;
-height:276px;
-}
-
+footer.site-footer a:hover{
+color:var(--text);
 }
