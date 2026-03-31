@@ -1,5 +1,389 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const blog = await getCollection("blog");
+const articles = await getCollection("articles");
+
+const latestBlog = [...blog]
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const latestArticles = [...articles]
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const favorites = [
+  "digital-totalitarianism",
+  "europe-decline",
+  "language-issues",
+];
+
+const favoriteArticles = favorites
+  .map((id) => articles.find((a) => a.id === id))
+  .filter(Boolean);
 ---
 
-<h1>Привет, тигры!</h1>
-<p>Это мой сайт.
+<BaseLayout title="Юрий Паламарчук">
+  <div class="home-layout">
+    <div class="home-main">
+
+      <section class="author-section">
+
+        <p class="muted">Об авторе</p>
+
+        <p class="author-intro">
+С 2014 года работал журналистом в различных интернет-изданиях, где писал социально-политические статьи на острые темы.        </p>
+
+        <p>
+Пожил на севере и на юге Китая, а также в нескольких странах Европы, выучил несколько языков, пробыл в эмиграции более семи лет. Перезнакомился с массой таких же, как я, эмигрантов и со временем начал систематизировать накопленный опыт и наблюдения.        </p>
+
+        <p>
+В 2022 году издал книгу о Европе, а в 2025 написал книгу о Китае, где прожил пять лет.        
+        </p>
+
+      </section>
+
+      <section class="section home-section">
+
+        <h2 class="linked-section-title">
+          <a href="/blog">Блог</a>
+        </h2>
+
+        <div class="list home-list">
+          {latestBlog.map((post) => (
+            <article class="item">
+              <h3>
+                <a href={`/blog/${post.id}`}>
+                  {post.data.title}
+                </a>
+              </h3>
+
+              <div class="article-meta">
+                {post.data.date.toLocaleDateString("ru-RU")}
+              </div>
+
+              {post.data.excerpt && (
+                <p class="article-excerpt">
+                  {post.data.excerpt}
+                </p>
+              )}
+
+              <div class="item-readmore">
+                <a href={`/blog/${post.id}`}>Читать →</a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+      </section>
+
+      <section class="section home-section">
+
+        <h2 class="linked-section-title">
+          <a href="/articles">Статьи</a>
+        </h2>
+
+        <div class="list home-list">
+          {latestArticles.map((post) => (
+            <article class="item">
+              <h3>
+                <a href={`/articles/${post.id}`}>
+                  {post.data.title}
+                </a>
+              </h3>
+
+              <div class="article-meta">
+                {post.data.date.toLocaleDateString("ru-RU")}
+              </div>
+
+              {post.data.excerpt && (
+                <p class="article-excerpt">
+                  {post.data.excerpt}
+                </p>
+              )}
+
+              <div class="item-readmore">
+                <a href={`/articles/${post.id}`}>Читать →</a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+      </section>
+
+    </div>
+
+    <aside class="sidebar">
+
+      <h2 class="sidebar-heading">
+        Избранное
+      </h2>
+
+      <div class="sidebar-list">
+        {favoriteArticles.map((post) => (
+          <article class="sidebar-item">
+
+            <div class="sidebar-title">
+              <a href={`/articles/${post.id}`}>
+                {post.data.title}
+              </a>
+            </div>
+
+            <div class="article-meta">
+              {post.data.date.toLocaleDateString("ru-RU")}
+            </div>
+
+          </article>
+        ))}
+      </div>
+
+    </aside>
+  </div>
+
+  <section class="section home-books home-section">
+
+    <h2 class="linked-section-title">
+      <a href="/books">Книги</a>
+    </h2>
+
+    <div class="books-grid">
+
+      <article class="book-card">
+
+        <a class="book-cover" href="/books/john-ruprecht-84">
+          <img
+            src="/images/books/John_Ruprecht_84.png"
+            alt="Джон Рупрехт 84"
+          />
+        </a>
+
+        <h3 class="book-title">
+          <a href="/books/john-ruprecht-84">
+            Джон Рупрехт 84: Цифровой концлагерь (2025)
+          </a>
+        </h3>
+
+        <p class="muted">
+          Русский
+        </p>
+
+        <p>
+          Роман о цифровом тоталитаризме, дружбе, любви и стремлении к свободе
+        </p>
+
+        <a class="book-more" href="/books/john-ruprecht-84">
+          Подробнее →
+        </a>
+
+      </article>
+
+      <article class="book-card">
+
+        <a class="book-cover" href="/books/european-decadence-ua">
+          <img
+            src="/images/books/Europe_Ukraine_emigration_ua.jpg"
+            alt="Декаданс Європи, Ренесанс України"
+          />
+        </a>
+
+        <h3 class="book-title">
+          <a href="/books/european-decadence-ua">
+            Декаданс Європи, Ренесанс України (2023)
+          </a>
+        </h3>
+
+        <p class="muted">
+          Українська
+        </p>
+
+        <p>
+          Чому українцям майже немає сенсу емігрувати до Європи (переклад)
+        </p>
+
+        <a class="book-more" href="/books/european-decadence-ua">
+          Подробнее →
+        </a>
+
+      </article>
+
+      <article class="book-card">
+
+        <a class="book-cover" href="/books/european-decadence">
+          <img
+            src="/images/books/Europe_Ukraine_emigration.jpg"
+            alt="Декаданс Европы, Ренессанс Украины"
+          />
+        </a>
+
+        <h3 class="book-title">
+          <a href="/books/european-decadence">
+            Декаданс Европы, Ренессанс Украины (2022)
+          </a>
+        </h3>
+
+        <p class="muted">
+          Русский
+        </p>
+
+        <p>
+          Почему украинцам почти нет смысла эмигрировать в Европу
+        </p>
+
+        <a class="book-more" href="/books/european-decadence">
+          Подробнее →
+        </a>
+
+      </article>
+
+    </div>
+
+  </section>
+
+</BaseLayout>
+
+<style>
+.author-section{
+  max-width:720px;
+  margin-top:-12px;
+  margin-bottom:48px;
+}
+
+.author-section p{
+  color:#555;
+  font-size:0.95rem;
+}
+
+.author-intro{
+  font-style:italic;
+  color:#444;
+}
+
+.author-section .muted{
+  font-size:1rem;
+  font-weight:600;
+  color:#444;
+}
+
+.home-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 340px;
+  gap:64px;
+  align-items:start;
+}
+
+.home-main{
+  min-width:0;
+  line-height:1.65;
+}
+
+.sidebar{
+  top:40px;
+  min-width:0;
+}
+
+.sidebar-heading{
+  margin:0 0 16px;
+  font-size:1.38rem;
+  line-height:1.18;
+  font-weight:700;
+}
+
+.sidebar-list{
+  display:grid;
+  gap:22px;
+}
+
+.sidebar-item{
+  padding-bottom:14px;
+  border-bottom:1px solid #ececec;
+}
+
+.sidebar-item:last-child{
+  padding-bottom:0;
+  border-bottom:none;
+}
+
+.sidebar-title{
+  font-size:1.05rem;
+  line-height:1.5;
+  margin:0 0 2px;
+  font-weight:400;
+  color:#222;
+}
+
+.sidebar-title a{
+  color:#222;
+  text-decoration:none;
+}
+
+.sidebar-title a:hover{
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+.linked-section-title{
+  margin:0 0 18px;
+  font-size:1.58rem;
+  line-height:1.14;
+  font-weight:700;
+}
+
+.linked-section-title a{
+  text-decoration:none;
+}
+
+.linked-section-title a:hover{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+
+.list h3{
+  font-size:1.19rem;
+  line-height:1.36;
+  letter-spacing:0.01em;
+  word-spacing:0.05em;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+.home-section{
+  padding-bottom:28px;
+  margin-bottom:28px;
+  border-bottom:1px solid #ececec;
+}
+
+.home-section:last-of-type{
+  border-bottom:none;
+}
+
+.home-list .item{
+  border-bottom:none;
+  padding-bottom:0;
+}
+
+.home-list{
+  gap:30px;
+}
+
+.home-books{
+  margin-top:16px;
+}
+
+.home-books .books-grid{
+  margin-top:8px;
+}
+
+@media (max-width:900px){
+
+  .home-layout{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:static;
+    margin-top:40px;
+  }
+
+}
+</style>

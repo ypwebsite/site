@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<BaseLayout title="Статьи — Юрий Паламарчук">
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Статьи</h1>
+      <p class="muted">Здесь будут публиковаться как новые статьи, так и старые - задним числом.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="list">
+      {articles.map((article) => (
+        <article class="item">
+          <h3>
+            <a href={`/articles/${article.id}`}>{article.data.title}</a>
+          </h3>
+
+          <p class="article-meta">
+            {article.data.date.toLocaleDateString("ru-RU")}
+          </p>
+
+          {article.data.excerpt && (
+            <p class="article-excerpt">{article.data.excerpt}</p>
+          )}
+
+          <div class="item-readmore">
+            <a href={`/articles/${article.id}`}>Читать →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

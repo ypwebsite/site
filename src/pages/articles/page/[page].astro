@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths({ paginate }) {
+  const articles = (await getCollection("articles")).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  );
+
+  return paginate(articles, {
+    pageSize: 5,
+    params: {},
+    props: {},
+  });
+}
+
+const { page } = Astro.props;
+const currentPage = page.currentPage;
+const lastPage = page.lastPage;
+---
+
+<BaseLayout title={`Статьи — страница ${currentPage}`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Статьи</h1>
+      <p class="muted">Страница {currentPage}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="list">
+      {page.data.map((article) => (
+        <article class="item">
+          <h3>
+            <a href={`/articles/${article.id}`}>{article.data.title}</a>
+          </h3>
+
+          <p class="muted article-meta">
+            {article.data.date.toLocaleDateString("ru-RU")}
+          </p>
+
+          {article.data.excerpt && (
+            <p class="article-excerpt">{article.data.excerpt}</p>
+          )}
+
+          <p class="item-readmore">
+            <a href={`/articles/${article.id}`}>Читать дальше →</a>
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <nav class="pagination">
+    {currentPage > 1 ? (
+      <a
+        class="pagination-prev"
+        href={currentPage === 2 ? "/articles" : `/articles/page/${currentPage - 1}`}
+      >
+        ← Prev
+      </a>
+    ) : (
+      <span class="pagination-disabled">← Prev</span>
+    )}
+
+    {currentPage < lastPage ? (
+      <a class="pagination-next" href={`/articles/page/${currentPage + 1}`}>
+        Next →
+      </a>
+    ) : (
+      <span class="pagination-disabled">Next →</span>
+    )}
+  </nav>
+</BaseLayout>
+
+<style is:global>
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .pagination a {
+    text-decoration: none;
+  }
+
+  .pagination a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .pagination-prev,
+  .pagination-next {
+    font-size: 1rem;
+  }
+
+  .pagination-disabled {
+    color: #aaa;
+  }
+</style>

@@ -1,0 +1,161 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+const allArticles = await getCollection("articles");
+
+const latestArticles = [...allArticles]
+  .filter((item) => item.id !== article.id)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout title={`${article.data.title} — Юрий Паламарчук`}>
+  <div class="article-layout">
+    <article class="article-page">
+      <header class="article-header">
+        <h1>{article.data.title}</h1>
+
+        <p class="muted article-meta">
+         {article.data.date.toLocaleDateString("ru-RU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric"
+})}
+        </p>
+
+        {article.data.excerpt && (
+          <p class="article-excerpt">{article.data.excerpt}</p>
+        )}
+      </header>
+
+      <div class="article-body">
+        <Content />
+      </div>
+
+      <section class="section comments-block">
+        <h2>Комментарии</h2>
+        <p class="muted">Здесь позже появится Disqus.</p>
+      </section>
+    </article>
+
+    <aside class="article-sidebar">
+      <h2 class="article-sidebar-heading">Последние статьи</h2>
+
+      <div class="article-sidebar-list">
+        {latestArticles.map((post) => (
+          <article class="article-sidebar-item">
+            <div class="article-sidebar-title">
+              <a href={`/articles/${post.id}`}>{post.data.title}</a>
+            </div>
+
+            <div class="article-meta">
+              {post.data.date.toLocaleDateString("ru-RU")}
+            </div>
+          </article>
+        ))}
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .article-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .article-page {
+    min-width: 0;
+  }
+
+  .article-header {
+    margin-bottom: 28px;
+    max-width: 760px;
+  }
+
+  .article-body {
+    max-width: 760px;
+  }
+
+  .article-sidebar {
+    position: static;
+    min-width: 0;
+  }
+
+  .article-sidebar-heading {
+    margin: 0 0 16px;
+    font-size: 1.38rem;
+    line-height: 1.18;
+    font-weight: 700;
+  }
+
+  .article-sidebar-list {
+    display: grid;
+    gap: 22px;
+  }
+
+  .article-sidebar-item {
+    padding-bottom: 14px;
+    border-bottom: 1px solid #ececec;
+  }
+
+  .article-sidebar-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .article-sidebar-title {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin: 0 0 2px;
+    font-weight: 400;
+    color: #222;
+  }
+
+  .article-sidebar-title a {
+    color: #222;
+    text-decoration: none;
+  }
+
+  .article-sidebar-title a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .comments-block {
+    max-width: 760px;
+    margin-top: 48px;
+    padding-top: 10px;
+    border-top: 1px solid #ececec;
+  }
+
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .article-page {
+      max-width: 760px;
+    }
+
+    .article-sidebar {
+      max-width: 760px;
+    }
+  }
+</style>

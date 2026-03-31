@@ -1,0 +1,43 @@
+---
+import "../styles/global.css";
+const { title = "Юрий Паламарчук" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+<head>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="site-header">
+
+<a class="brand" href="/">Юрий Паламарчук</a>
+
+<nav class="site-nav">
+<a href="/books">Книги</a>
+<a href="/articles">Статьи</a>
+<a href="/blog">Блог</a>
+</nav>
+
+</header>
+
+<main>
+<slot />
+</main>
+
+<footer class="site-footer">
+© 2026 Юрий Паламарчук
+</footer>
+
+</div>
+
+</body>
+</html>
