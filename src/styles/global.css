@@ -414,6 +414,16 @@ text-decoration-color:var(--accent-hover);
 margin-top:30px;
 }
 
+.fragment-text{
+font-size:1.05rem;
+line-height:1.75;
+max-width:760px;
+}
+
+.fragment-text p{
+margin-bottom:16px;
+}
+
 footer.site-footer{
 margin-top:58px;
 padding-top:18px;
