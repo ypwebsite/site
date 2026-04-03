@@ -441,3 +441,38 @@ text-underline-offset:3px;
 footer.site-footer a:hover{
 color:var(--text);
 }
+
+@media (max-width: 700px){
+
+  header.site-header{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .site-nav{
+    width: 100%;
+    gap: 18px 28px;
+    flex-wrap: wrap;
+  }
+
+  .site-nav a{
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .books-grid{
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .book-card{
+    max-width: 100%;
+  }
+
+  .book-cover img{
+    width: 160px;
+    height: auto;
+  }
+
+}
