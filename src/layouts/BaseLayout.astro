@@ -1,47 +1,76 @@
 ---
 import "../styles/global.css";
 
-const { title = "Юрий Паламарчук", description = "Книги, статьи и блог Юрия Паламарчука" } = Astro.props;
+const {
+  title = "Юрий Паламарчук",
+  description = "Книги, статьи и блог Юрия Паламарчука",
+  image = "/cover.jpg"
+} = Astro.props;
+
 const canonicalURL = Astro.url.href;
+const siteName = "Юрий Паламарчук";
 ---
 
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Статьи и книги Юрия Паламарчука"
-      href="/rss.xml"
-    />
-  </head>
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
 
-  <body>
-    <div class="container">
-      <header class="site-header">
-        <a class="brand" href="/">Юрий Паламарчук</a>
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="article" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={image} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="ru_RU" />
 
-        <nav class="site-nav">
-          <a href="/books">Книги</a>
-          <a href="/articles">Статьи</a>
-          <a href="/blog">Блог</a>
-        </nav>
-      </header>
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
 
-      <main>
-        <slot />
-      </main>
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="Статьи и книги Юрия Паламарчука"
+  href="/rss.xml"
+/>
 
-      <footer class="site-footer">
-        © 2026 Юрий Паламарчук · <a href="/rss.xml">RSS</a> · <a href="/disclaimer">Дисклеймер</a>
-      </footer>
-    </div>
-  </body>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="site-header">
+
+<a class="brand" href="/">Юрий Паламарчук</a>
+
+<nav class="site-nav">
+<a href="/books">Книги</a>
+<a href="/articles">Статьи</a>
+<a href="/blog">Блог</a>
+</nav>
+
+</header>
+
+<main>
+<slot />
+</main>
+
+<footer class="site-footer">
+© 2026 Юрий Паламарчук · <a href="/rss.xml">RSS</a> · <a href="/disclaimer">Дисклеймер</a>
+</footer>
+
+</div>
+
+</body>
 </html>
