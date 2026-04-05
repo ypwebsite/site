@@ -1,48 +1,47 @@
 ---
 import "../styles/global.css";
-const { title = "Юрий Паламарчук" } = Astro.props;
+
+const { title = "Юрий Паламарчук", description = "Книги, статьи и блог Юрия Паламарчука" } = Astro.props;
+const canonicalURL = Astro.url.href;
 ---
 
 <!doctype html>
 <html lang="ru">
-<head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{title}</title>
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title="Статьи и книги Юрия Паламарчука"
-  href="/rss.xml"
-/>
-</head>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
 
-<body>
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Статьи и книги Юрия Паламарчука"
+      href="/rss.xml"
+    />
+  </head>
 
-<div class="container">
+  <body>
+    <div class="container">
+      <header class="site-header">
+        <a class="brand" href="/">Юрий Паламарчук</a>
 
-<header class="site-header">
+        <nav class="site-nav">
+          <a href="/books">Книги</a>
+          <a href="/articles">Статьи</a>
+          <a href="/blog">Блог</a>
+        </nav>
+      </header>
 
-<a class="brand" href="/">Юрий Паламарчук</a>
+      <main>
+        <slot />
+      </main>
 
-<nav class="site-nav">
-<a href="/books">Книги</a>
-<a href="/articles">Статьи</a>
-<a href="/blog">Блог</a>
-</nav>
-
-</header>
-
-<main>
-<slot />
-</main>
-
-<footer class="site-footer">
-© 2026 Юрий Паламарчук · <a href="/rss.xml">RSS</a> · <a href="/disclaimer">Дисклеймер</a>
-</footer>
-
-</div>
-
-</body>
+      <footer class="site-footer">
+        © 2026 Юрий Паламарчук · <a href="/rss.xml">RSS</a> · <a href="/disclaimer">Дисклеймер</a>
+      </footer>
+    </div>
+  </body>
 </html>
