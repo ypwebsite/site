@@ -22,8 +22,11 @@ const latestPosts = [...allPosts]
   .slice(0, 3);
 ---
 
-<BaseLayout title={`${post.data.title} — Юрий Паламарчук`}>
-
+<BaseLayout
+  title={post.data.title}
+  description={post.data.excerpt}
+  type="article"
+>
   <div class="article-layout">
 
     <article class="article-page">
